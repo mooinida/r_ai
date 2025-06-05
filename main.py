@@ -17,9 +17,11 @@ app.add_middleware(
 class Question(BaseModel):
     question: str
 
-@app.on_event("startup")
-def startup_event():
+# ✅ QA 초기화는 따로 호출하게 만든다
+@app.get("/api/init")
+def initialize_qa():
     build_knowledge_base()
+    return {"message": "QA knowledge base initialized."}
 
 @app.post("/api/ask")
 def ask_route(q: Question):
